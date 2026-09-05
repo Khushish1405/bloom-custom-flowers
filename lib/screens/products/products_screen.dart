@@ -3,6 +3,7 @@ import '../../data/products.dart';
 import '../../theme/app_theme.dart';
 import '../../utils/whatsapp_helper.dart';
 import '../../widgets/product_card.dart';
+import 'product_detail_screen.dart';
 
 class ProductsScreen extends StatelessWidget {
   const ProductsScreen({super.key});
@@ -71,6 +72,14 @@ class ProductsScreen extends StatelessWidget {
                     final product = allProducts[index];
                     return ProductCard(
                       product: product,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProductDetailScreen(product: product),
+                          ),
+                        );
+                      },
                       onOrder: () {
                         WhatsAppHelper.sendMessage(
                           'Hi Bloom! I am interested in ordering the "${product.name}" bouquet (₹${product.price.toStringAsFixed(0)}).',
