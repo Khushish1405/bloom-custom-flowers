@@ -344,6 +344,33 @@ class _CustomizeScreenState extends State<CustomizeScreen> {
     );
   }
 
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now().add(const Duration(days: 1)),
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(const Duration(days: 365)),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: const ColorScheme.light(
+              primary: AppTheme.primaryRose,
+              onPrimary: Colors.white,
+              onSurface: AppTheme.textPrimary,
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+    if (picked != null) {
+      setState(() {
+        // Format as DD/MM/YYYY
+        _dateController.text = "${picked.day.toString().padLeft(2, '0')}/${picked.month.toString().padLeft(2, '0')}/${picked.year}";
+      });
+    }
+  }
+
   Widget _buildDeliveryForm(bool isDesktop) {
     return Column(
       children: [
@@ -361,7 +388,13 @@ class _CustomizeScreenState extends State<CustomizeScreen> {
           _buildTextField(_phoneController, 'Phone Number', Icons.phone, isPhone: true),
         ],
         const SizedBox(height: 16),
-        _buildTextField(_dateController, 'Delivery Date (DD/MM/YYYY)', Icons.calendar_today),
+        _buildTextField(
+          _dateController, 
+          'Delivery Date', 
+          Icons.calendar_today,
+          readOnly: true,
+          onTap: () => _selectDate(context),
+        ),
         const SizedBox(height: 16),
         _buildTextField(_addressController, 'Delivery Address', Icons.location_on, maxLines: 2),
         const SizedBox(height: 16),
@@ -377,13 +410,20 @@ class _CustomizeScreenState extends State<CustomizeScreen> {
     int maxLines = 1,
     bool isPhone = false,
     bool isRequired = true,
+    VoidCallback? onTap,
+    bool readOnly = false,
   }) {
     return TextFormField(
       controller: controller,
       maxLines: maxLines,
+      maxLength: isPhone ? 10 : null,
       keyboardType: isPhone ? TextInputType.phone : TextInputType.text,
+      readOnly: readOnly,
+      onTap: onTap,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
         labelText: label,
+        counterText: '', // Hide the 0/10 counter
         prefixIcon: Icon(icon, color: AppTheme.textSecondary),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -404,6 +444,9 @@ class _CustomizeScreenState extends State<CustomizeScreen> {
           ? (value) {
               if (value == null || value.trim().isEmpty) {
                 return 'This field is required';
+              }
+              if (isPhone && value.length < 10) {
+                return 'Please enter a valid 10-digit phone number';
               }
               return null;
             }
