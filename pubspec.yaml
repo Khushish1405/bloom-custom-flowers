@@ -1,0 +1,29 @@
+name: bloom_custom_flowers
+description: "Bloom — Custom Flower Bouquets. A beautiful Flutter Web app for a customized flower business."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  google_fonts: ^6.2.1
+  url_launcher: ^6.3.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/images/flowers/
+    - assets/images/bouquets/
+    - assets/images/gallery/
+
