@@ -49,97 +49,69 @@ class ContactScreen extends StatelessWidget {
                 constraints: const BoxConstraints(maxWidth: 800),
                 child: Column(
                   children: [
-                    _buildContactCard(
-                      icon: Icons.chat,
-                      title: 'Chat with us',
-                      subtitle: 'We reply within minutes on WhatsApp.',
-                      buttonText: 'Open WhatsApp',
-                      onTap: () => WhatsAppHelper.openChat(),
-                      isPrimary: true,
-                    ),
-                    const SizedBox(height: 24),
-                    _buildContactCard(
-                      icon: Icons.phone,
-                      title: 'Call us',
-                      subtitle: 'Available Mon-Sat, 9am to 7pm.',
-                      buttonText: '+91 95866 69463',
-                      onTap: () {},
-                      isPrimary: false,
-                    ),
-                    const SizedBox(height: 24),
-                    _buildContactCard(
-                      icon: Icons.location_on,
-                      title: 'Visit our studio',
-                      subtitle: '123 Floral Street, Blooming City',
-                      buttonText: 'Get Directions',
-                      onTap: () {},
-                      isPrimary: false,
+                    Container(
+                      padding: const EdgeInsets.all(32),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(24),
+                        border: Border.all(color: AppTheme.dividerColor.withValues(alpha: 0.5)),
+                        boxShadow: AppTheme.cardShadow,
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              color: AppTheme.whatsappGreen.withValues(alpha: 0.1),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(Icons.chat, size: 40, color: AppTheme.whatsappGreen),
+                          ),
+                          const SizedBox(height: 24),
+                          const Text(
+                            'Chat with us',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w700,
+                              color: AppTheme.textPrimary,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 8),
+                          const Text(
+                            'We reply within minutes on WhatsApp.',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: AppTheme.textSecondary,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 32),
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton.icon(
+                              onPressed: () => WhatsAppHelper.openChat(),
+                              icon: const Icon(Icons.chat),
+                              label: const Text('Open WhatsApp'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppTheme.whatsappGreen,
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(vertical: 16),
+                                textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildContactCard({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required String buttonText,
-    required VoidCallback onTap,
-    required bool isPrimary,
-  }) {
-    return Container(
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppTheme.dividerColor.withValues(alpha: 0.5)),
-        boxShadow: AppTheme.cardShadow,
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: isPrimary ? AppTheme.whatsappGreen.withValues(alpha: 0.1) : AppTheme.accentBlush.withValues(alpha: 0.3),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(icon, size: 32, color: isPrimary ? AppTheme.whatsappGreen : AppTheme.primaryRose),
-          ),
-          const SizedBox(width: 24),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: AppTheme.textPrimary,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  subtitle,
-                  style: const TextStyle(color: AppTheme.textSecondary),
-                ),
-              ],
-            ),
-          ),
-          ElevatedButton(
-            onPressed: onTap,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: isPrimary ? AppTheme.whatsappGreen : AppTheme.backgroundCream,
-              foregroundColor: isPrimary ? Colors.white : AppTheme.primaryRose,
-              elevation: 0,
-            ),
-            child: Text(buttonText),
           ),
         ],
       ),
