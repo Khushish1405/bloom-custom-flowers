@@ -72,9 +72,8 @@ class ProductsScreen extends StatelessWidget {
                     return ProductCard(
                       product: product,
                       onOrder: () {
-                        WhatsAppHelper.openChat(
-                          context,
-                          message: 'Hi Bloom! I am interested in ordering the "${product.name}" bouquet (₹${product.price.toStringAsFixed(0)}).',
+                        WhatsAppHelper.sendMessage(
+                          'Hi Bloom! I am interested in ordering the "${product.name}" bouquet (₹${product.price.toStringAsFixed(0)}).',
                         );
                       },
                     );

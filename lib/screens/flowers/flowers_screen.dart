@@ -97,11 +97,11 @@ class FlowersScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
                 CustomButton(
-                  text: 'Build Custom Bouquet',
+                  label: 'Build Custom Bouquet',
                   onPressed: () {
                     AppNavigation.navigateToTab(context, 3);
                   },
-                  isPrimary: true,
+                  variant: CustomButtonVariant.primary,
                   icon: Icons.auto_awesome,
                 ),
               ],
