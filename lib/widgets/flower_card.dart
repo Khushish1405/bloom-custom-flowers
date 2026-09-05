@@ -2,13 +2,6 @@ import 'package:flutter/material.dart';
 import '../models/flower.dart';
 import '../theme/app_theme.dart';
 
-/// ──────────────────────────────────────────────
-/// Flower Card — Reusable flower display widget
-/// ──────────────────────────────────────────────
-/// Will be fully implemented when building the
-/// Flowers screen. For now, a basic structure.
-/// ──────────────────────────────────────────────
-
 class FlowerCard extends StatelessWidget {
   final Flower flower;
   final VoidCallback? onTap;
@@ -32,45 +25,87 @@ class FlowerCard extends StatelessWidget {
           ),
           boxShadow: AppTheme.cardShadow,
         ),
+        clipBehavior: Clip.antiAlias,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Image placeholder
-            Container(
-              width: 64,
-              height: 64,
-              decoration: BoxDecoration(
-                color: AppTheme.accentBlush.withValues(alpha: 0.5),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: const Icon(
-                Icons.local_florist,
-                color: AppTheme.primaryRose,
-                size: 32,
+            // Image Area
+            Expanded(
+              flex: 3,
+              child: Container(
+                color: AppTheme.accentBlush.withValues(alpha: 0.2),
+                child: Center(
+                  child: Icon(
+                    Icons.local_florist,
+                    size: 48,
+                    color: _getColorFromName(flower.color),
+                  ),
+                ),
               ),
             ),
-            const SizedBox(height: 12),
-            Text(
-              flower.name,
-              style: const TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 15,
-                color: AppTheme.textPrimary,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 4),
-            Text(
-              '₹${flower.pricePerUnit.toStringAsFixed(0)}/${flower.unit}',
-              style: const TextStyle(
-                fontSize: 13,
-                color: AppTheme.primaryRose,
-                fontWeight: FontWeight.w600,
+            // Details Area
+            Expanded(
+              flex: 2,
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      flower.name,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 15,
+                        color: AppTheme.textPrimary,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 4),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '₹${flower.pricePerUnit.toStringAsFixed(0)}/${flower.unit}',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: AppTheme.primaryRose,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        if (onTap != null)
+                          Container(
+                            padding: const EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              color: AppTheme.primaryRose,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: const Icon(
+                              Icons.add,
+                              color: Colors.white,
+                              size: 16,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
         ),
       ),
     );
+  }
+
+  Color _getColorFromName(String colorName) {
+    switch (colorName.toLowerCase()) {
+      case 'red': return Colors.red;
+      case 'white': return Colors.grey.shade400;
+      case 'pink': return Colors.pink.shade300;
+      case 'yellow': return Colors.yellow.shade700;
+      default: return AppTheme.primaryRose;
+    }
   }
 }
